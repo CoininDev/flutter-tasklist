@@ -8,13 +8,14 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tasks = context.watch<TasksController>().tasks;
+    final ctrl = context.watch<TasksController>();
+    final tasks = ctrl.searchTasks();
     return Scaffold(
       body: Container(
         padding: EdgeInsets.all(15),
         child: Column(
           children: [
-            searchBox(),
+            searchBox(ctrl),
             Container(
               margin: EdgeInsets.symmetric(vertical: 20),
               child: Text('Todas as tarefas:', style: TextStyle(fontSize: 20)),
@@ -22,7 +23,9 @@ class HomePage extends StatelessWidget {
             Expanded(
               child:
                   tasks.keys.isEmpty
-                      ? Text("A lista está vazia :!")
+                      ? ctrl.query.isEmpty
+                          ? Text("A lista está vazia :!")
+                          : Text("Nenhum resultado da busca encontrado :!")
                       : ListView.builder(
                         itemCount: tasks.keys.length,
                         itemBuilder: (context, index) {
@@ -49,7 +52,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget searchBox() {
+  Widget searchBox(TasksController ctrl) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 30),
       padding: EdgeInsets.symmetric(horizontal: 15),
@@ -65,6 +68,7 @@ class HomePage extends StatelessWidget {
           border: InputBorder.none,
           hintText: 'Pesquisar...',
         ),
+        onChanged: (value) => ctrl.updateQuery(value),
       ),
     );
   }

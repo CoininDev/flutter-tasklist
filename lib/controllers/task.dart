@@ -7,8 +7,9 @@ import 'package:testeflutter/models/task.dart';
 class TasksController extends ChangeNotifier {
   final FlutterSecureStorage _storage = FlutterSecureStorage();
   final Map<int, TaskModel> _models = {};
-  final Map<int, TaskModel> _searchResults = {};
   Map<int, TaskModel> get tasks => _models;
+  String _query = "";
+  String get query => _query;
 
   Future<void> loadTasks() async {
     String? storedTasks = await _storage.read(key: 'tasks');
@@ -44,15 +45,23 @@ class TasksController extends ChangeNotifier {
     notifyListeners();
   }
 
-  Map<int, TaskModel> searchTask(String search) {
+  Map<int, TaskModel> searchTasks() {
+    if (_query.isEmpty) {
+      return _models;
+    }
+
     Map<int, TaskModel> filteredTasks = {};
     _models.forEach((taskid, task) {
-      if (task.name.toLowerCase().contains(search.toLowerCase())) {
+      if (task.name.toLowerCase().contains(_query.toLowerCase())) {
         filteredTasks[taskid] = task;
       }
     });
-    notifyListeners();
     return filteredTasks;
+  }
+
+  void updateQuery(String val) {
+    _query = val;
+    notifyListeners();
   }
 
   void delTask(int id) {
