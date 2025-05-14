@@ -7,7 +7,6 @@ import 'package:window_manager/window_manager.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await WindowManager.instance.ensureInitialized();
-  await WindowManager.instance.setMaximizable(false);
   await WindowManager.instance.setSize(Size(800, 600));
   await WindowManager.instance.setMinimumSize(Size(220, 220));
   var tasksCtrl = TasksController();

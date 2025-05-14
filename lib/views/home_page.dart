@@ -15,7 +15,7 @@ class HomePage extends StatelessWidget {
         padding: EdgeInsets.all(15),
         child: Column(
           children: [
-            searchBox(ctrl),
+            searchBox(context, ctrl),
             Container(
               margin: EdgeInsets.symmetric(vertical: 20),
               child: Text('Todas as tarefas:', style: TextStyle(fontSize: 20)),
@@ -24,7 +24,7 @@ class HomePage extends StatelessWidget {
               child:
                   tasks.keys.isEmpty
                       ? ctrl.query.isEmpty
-                          ? Text("A lista está vazia :!")
+                          ? Text("Me faz um carinho....")
                           : Text("Nenhum resultado da busca encontrado :!")
                       : ListView.builder(
                         itemCount: tasks.keys.length,
@@ -52,18 +52,22 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget searchBox(TasksController ctrl) {
+  Widget searchBox(BuildContext ctx, TasksController ctrl) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 30),
       padding: EdgeInsets.symmetric(horizontal: 15),
       decoration: BoxDecoration(
-        color: Colors.black12,
+        color: Theme.of(ctx).primaryColorDark,
         borderRadius: BorderRadius.circular(10),
       ),
       child: TextField(
         decoration: InputDecoration(
           contentPadding: EdgeInsets.all(7),
-          prefixIcon: Icon(Icons.search, color: Colors.white, size: 20),
+          prefixIcon: Icon(
+            Icons.search,
+            color: Theme.of(ctx).highlightColor,
+            size: 20,
+          ),
           prefixIconConstraints: BoxConstraints(minWidth: 20, minHeight: 25),
           border: InputBorder.none,
           hintText: 'Pesquisar...',

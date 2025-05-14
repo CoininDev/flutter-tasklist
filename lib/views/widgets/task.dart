@@ -13,7 +13,7 @@ class TaskUI extends StatelessWidget {
   Widget build(BuildContext ctx) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.black12,
+        color: Theme.of(ctx).primaryColorDark,
         borderRadius: BorderRadius.circular(20),
       ),
       margin: EdgeInsets.symmetric(vertical: 5),
@@ -32,13 +32,15 @@ class TaskUI extends StatelessWidget {
                     item.done
                         ? TextDecoration.lineThrough
                         : TextDecoration.none,
-                color: item.done ? Colors.grey : Colors.white,
+                color:
+                    item.done
+                        ? Theme.of(ctx).disabledColor
+                        : Theme.of(ctx).indicatorColor,
               ),
             ),
             IconButton(
               onPressed: () => ctx.read<TasksController>().delTask(id),
               icon: Icon(Icons.remove),
-              color: Colors.white,
               hoverColor: Colors.redAccent,
             ),
           ],
